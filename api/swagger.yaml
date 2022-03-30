@@ -1,140 +1,95 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Simple API to validate Kusk Extensions
-  description: Sample API which can be deployed to Kubernetes using Kusk extension
-  version: 0.0.1
-  contact:
-    name: User
-    email: user@example.com
-  license:
-    name: Apache
-    url: http://localhost/licenses
-paths:
-  "/pet/{petId}":
-    x-kusk:
-      cors:
-        origins:
-          - http://foo.example
-          - http://bar.example
-        methods:
-          - POST
-          - GET
-          - OPTIONS
-        headers:
-          - Content-Type
-        expose_headers:
-          - X-Custom-Header
-        max_age: 86400
-    get:
-      tags:
-      - pet
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
-      parameters:
-      - name: petId
-        in: path
-        description: ID of pet to return
-        required: true
-        schema:
-          type: integer
-          format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/xml:
-              schema:
-                "$ref": "#/components/schemas/Pet"
-            application/json:
-              schema:
-                "$ref": "#/components/schemas/Pet"
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-        default:
-          description: Get Pet response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-  "/pet/findByStatus":
-    get:
-      tags:
-      - pet
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatus
-      parameters:
-      - name: status
-        in: query
-        description: Status values that need to be considered for filter
-        required: false
-        explode: true
-        schema:
-          type: string
-          default: available
-          enum:
-          - available
-          - pending
-          - sold
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/xml:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Pet"
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/Pet"
-        '400':
-          description: Invalid status value
-        default:
-          description: Get Pets response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pets'
-components:
-  schemas:
-    Pet:
-      type: object
-      properties:
-        name:
-          type: string
-          description: the name of the pet
-          example: Rover
-        color:
-          type: string
-          description: the color of the pet
-          example: yellow
-        age:
-          type: integer
-          description: the age in years of the pet
-          example: 17
-        eyeColor:
-          type: string
-          description: the eye color of the pet
-          example: green
-    Pets:
-      type: array
-      items:
-        $ref: '#/components/schemas/Pet'
+  title: Todo-Backend API
+  version: 0.0.2
 x-kusk:
-  disabled: false
+  cors:
+    origins:
+      - '*'
+    methods:
+      - POST
+      - GET
+    headers:
+      - Content-Type
+    credentials: true
+    max_age: 86200
   upstream:
     service:
-      name: petstore
       namespace: default
-      port: 8081
-    rewrite:
-      pattern: "^/petstore"
-      substitution: ""
+      name: todo-backend
+      port: 3000
   path:
-    prefix: /petstore/api/v3
+    prefix: /
+paths:
+  /todos:
+    get:
+      responses:
+        '200':
+          description: The full list of todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Description of what to do
+                    completed:
+                      type: boolean
+                    order:
+                      type: integer
+                      format: int32
+                    url:
+                      type: string
+                  required:
+                    - title
+                    - completed
+                    - order
+                    - url
+      summary: Lists all Todos
+      description: The returned Todos are ordered by 'order' and then 'title'
+      tags:
+        - Todo
+    post:
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                    description: Description of what to do
+                  completed:
+                    type: boolean
+                  order:
+                    type: integer
+                    format: int32
+                  url:
+                    type: string
+                required:
+                  - title
+                  - completed
+                  - order
+                  - url
+      summary: Creates a new, uncompleted Todo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Description of what to do
+                order:
+                  type: integer
+                  format: int32
+              required:
+                - title
+      tags:
+        - Todo
