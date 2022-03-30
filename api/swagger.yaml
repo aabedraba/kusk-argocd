@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Todo-Backend API
+  title: todo-backend-api
   version: 0.0.2
 x-kusk:
   cors:
