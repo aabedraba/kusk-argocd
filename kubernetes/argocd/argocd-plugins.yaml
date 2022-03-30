@@ -1,0 +1,7 @@
+data:
+ configManagementPlugins: |
+   - name: kusk-gateway
+     generate:
+       command: ["bash", "-c"]
+       args: ["kgw api generate -i swagger.yaml"]
+     lockRepo: true
