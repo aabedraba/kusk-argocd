@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: todo-backend-api
-  version: 0.0.2
+  version: 0.0.1
 x-kusk:
   cors:
     origins:
@@ -16,7 +16,7 @@ x-kusk:
   upstream:
     service:
       namespace: default
-      name: todo-backend
+      name: simple-api
       port: 3000
   path:
     prefix: /
@@ -93,3 +93,7 @@ paths:
                 - title
       tags:
         - Todo
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Abdallah3/swagger-kusk/0.0.1
