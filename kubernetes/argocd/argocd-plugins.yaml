@@ -3,5 +3,5 @@ data:
    - name: kusk-gateway
      generate:
        command: ["bash", "-c"]
-       args: ["kgw api generate -i swagger.yaml"]
+       args: ["kusk api generate -i openapi.yaml"]
      lockRepo: true
