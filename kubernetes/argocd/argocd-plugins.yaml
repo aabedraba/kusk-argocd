@@ -3,5 +3,5 @@ data:
    - name: kusk-gateway
      generate:
        command: ["bash", "-c"]
-       args: ["kusk api generate -i openapi.yaml"]
+       args: ["kusk api generate -i openapi.yaml --envoyfleet.name kusk-gateway-envoy-fleet "]
      lockRepo: true
