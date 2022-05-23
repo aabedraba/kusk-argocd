@@ -6,9 +6,9 @@ metadata:
 spec:
  project: default
  source:
-   repoURL: https://github.com/aabedraba/swaggerhub-kusk-argocd.git
+   repoURL: https://github.com/aabedraba/kusk-demo.git
    targetRevision: HEAD
-   path: api
+   path: .
    plugin:
      name: kusk-gateway
  destination:
